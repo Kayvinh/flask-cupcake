@@ -1,5 +1,5 @@
 import os
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from models import Cupcake, db, connect_db, DEFAULT_IMG
 """Flask app for Cupcakes"""
 
@@ -89,4 +89,16 @@ def delete_cupcake(cupcake_id):
     db.session.delete(cupcake)
     db.session.commit()
 
-    return jsonify({"deleted": cupcake_id})
+    return jsonify(deleted=cupcake_id)
+
+@app.get
+
+
+
+
+# GET /
+# This should return an HTML page (via render_template). 
+# This page should be entirely static (the route should just render the template,
+# without providing any information on cupcakes in the database). 
+# It should show simply have an empty list where cupcakes should appear and a 
+# form where new cupcakes can be added.
