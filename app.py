@@ -14,16 +14,16 @@ connect_db(app)
 
 @app.get('/api/cupcakes')
 def list_cupcakes():
-    """ Returns JSON {'cupcakes': [{id, flavor, size}, ...]} """
+    """ Returns JSON for all cupcakes: {'cupcakes': [{id, flavor, size, rating, image}, ...]} """
 
     cupcakes = Cupcake.query.all()
     serialized = [c.serialize() for c in cupcakes]
 
     return jsonify(cupcakes=serialized)
 
-@app.get('/api/cupcakes/<cupcake_id>')
+@app.get('/api/cupcakes/<int:cupcake_id>')
 def list_cupcake(cupcake_id):
-    """ Return JSON {'cupcake: {id, flavor, ...}}"""
+    """ Return JSON for single cupcake: {'cupcake: {id, flavor, size, rating, image}} """
 
     cupcake = Cupcake.query.get_or_404(cupcake_id)
 
@@ -35,7 +35,9 @@ def list_cupcake(cupcake_id):
 def create_cupcake():
     """ Create cupcake from posted JSON data and return it. 
     
-    Returns JSON {'cupcake': {id, flavor, size ...}}"""
+    Returns JSON {'cupcake': {id, flavor, size, rating, image}}
+    
+    Adds cupcake to the database 'cupcakes'. """
 
 
     flavor = request.json['flavor']
@@ -43,7 +45,7 @@ def create_cupcake():
     rating = request.json['rating']
     image = request.json['image']
     if image == '':
-        image = DEFAULT_IMG
+        image = None
 
     new_cupcake = Cupcake(flavor=flavor, size=size, rating=rating, image=image)
 

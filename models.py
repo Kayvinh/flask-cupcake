@@ -4,7 +4,6 @@ db = SQLAlchemy()
 
 DEFAULT_IMG = "https://tinyurl.com/demo-cupcake"
 
-"""Models for Cupcake app."""
 class Cupcake(db.Model):
     """ Cupcake """
 
@@ -27,7 +26,7 @@ class Cupcake(db.Model):
     )
 
     rating = db.Column(
-        db.Integer(),
+        db.Integer,
         nullable=False,
     )
 
