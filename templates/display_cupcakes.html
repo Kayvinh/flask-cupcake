@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <ul>
+        {% for cupcake in cupcakes %}
+            <li>{{ cupcake.flavor }}
+                {{ cupcake.size }}
+                {{ cupcake.rating }}
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
