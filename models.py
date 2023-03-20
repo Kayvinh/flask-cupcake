@@ -48,7 +48,6 @@ class Cupcake(db.Model):
             "image": self.image
         }
 
-
 def connect_db(app):
     """Connect to database."""
 
