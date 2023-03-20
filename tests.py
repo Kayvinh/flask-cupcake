@@ -90,7 +90,7 @@ class CupcakeViewsTestCase(TestCase):
     def test_create_cupcake(self):
         with app.test_client() as client:
             url = "/api/cupcakes"
-            resp = client.post(url, json=CUPCAKE_DATA_2)
+            resp = client.post(url)
 
             self.assertEqual(resp.status_code, 201)
 
@@ -110,3 +110,28 @@ class CupcakeViewsTestCase(TestCase):
             })
 
             self.assertEqual(Cupcake.query.count(), 2)
+    
+    def test_patch_cupcake(self):
+        with app.test_client() as client:
+            url = f"/api/cupcakes/{self.cupcake_id}"
+            resp = client.get(url)
+
+            # check status code 200s
+            self.assertEqual(resp.status_code, 200)
+
+            data = resp.json.copy()
+
+            data["cupcake"]["flavor"] = "oreo"
+            db.session.commit()
+
+            # check if changed flavor
+            self.assertEqual(data, {
+                "cupcake": {
+                    "flavor": "oreo",
+                    "size": "TestSize",
+                    "rating": 5,
+                    "image": "http://test.com/cupcake.jpg"
+                }
+            })
+
+            
