@@ -90,7 +90,7 @@ class CupcakeViewsTestCase(TestCase):
     def test_create_cupcake(self):
         with app.test_client() as client:
             url = "/api/cupcakes"
-            resp = client.post(url)
+            resp = client.post(url, json=CUPCAKE_DATA_2)
 
             self.assertEqual(resp.status_code, 201)
 
@@ -114,24 +114,47 @@ class CupcakeViewsTestCase(TestCase):
     def test_patch_cupcake(self):
         with app.test_client() as client:
             url = f"/api/cupcakes/{self.cupcake_id}"
-            resp = client.get(url)
+            print(url, 'THE URL')
+            resp = client.patch(url, json={
+                                    "flavor": "oreo",
+                                    "size": "TestSize2",
+                                    "rating": 10,
+                                    "image": "http://test.com/cupcake2.jpg"
+                                    })
 
             # check status code 200s
             self.assertEqual(resp.status_code, 200)
 
             data = resp.json.copy()
-
-            data["cupcake"]["flavor"] = "oreo"
-            db.session.commit()
+            print(data, 'THE DATA')
 
             # check if changed flavor
             self.assertEqual(data, {
                 "cupcake": {
                     "flavor": "oreo",
-                    "size": "TestSize",
-                    "rating": 5,
-                    "image": "http://test.com/cupcake.jpg"
+                    'id': self.cupcake_id,
+                    "size": "TestSize2",
+                    "rating": 10,
+                    "image": "http://test.com/cupcake2.jpg"
                 }
             })
+
+
+    def test_delete_cupcake(self):
+        with app.test_client() as client:
+
+            url = f"/api/cupcakes/{self.cupcake_id}"
+
+            response = client.delete(url)
+
+            data = response.json.copy()
+
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(data, {
+                            "deleted": self.cupcake_id
+                            })
+
+
+
 
             

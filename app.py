@@ -63,14 +63,20 @@ def patch_cupcake(cupcake_id):
     """
 
     cupcake = Cupcake.query.get_or_404(cupcake_id)
-    cupcake.flavor = request.json['flavor']
-    cupcake.size = request.json['size']
-    cupcake.rating = request.json['rating']
-    cupcake.image = request.json['image']
+
+    # If they send empty string for image, assign default image
+
+    cupcake.flavor = request.json.get('flavor', cupcake.flavor)
+    cupcake.size = request.json.get('size', cupcake.size)
+    cupcake.rating = request.json.get('rating', cupcake.rating)
+    cupcake.image = request.json.get('image', cupcake.image)
+
+    if cupcake.image == '':
+        cupcake.image = DEFAULT_IMG
 
     db.session.commit()
 
-    serialized = [cupcake.serialize()]
+    serialized = cupcake.serialize()
 
     return jsonify(cupcake=serialized)
 
