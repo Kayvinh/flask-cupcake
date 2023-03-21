@@ -1,7 +1,6 @@
 import os
 from flask import Flask, jsonify, request, render_template, redirect, flash
 from models import Cupcake, db, connect_db, DEFAULT_IMG
-from forms import AddCupcakeForm
 """Flask app for Cupcakes"""
 
 app = Flask(__name__)
