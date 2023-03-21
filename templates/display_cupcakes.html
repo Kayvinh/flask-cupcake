@@ -1,13 +1,6 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
 
-{% block content %}
-    <ul>
-        {% for cupcake in cupcakes %}
-            <li>{{ cupcake.flavor }}
-                {{ cupcake.size }}
-                {{ cupcake.rating }}
-            </li>
-        {% endfor %}
-    </ul>
+<h1>Cupcakes</h1>
+<ul id="cupcake-list"></ul>
 
 {% endblock %}

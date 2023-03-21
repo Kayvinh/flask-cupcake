@@ -1,6 +1,7 @@
 import os
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, redirect, flash
 from models import Cupcake, db, connect_db, DEFAULT_IMG
+from forms import AddCupcakeForm
 """Flask app for Cupcakes"""
 
 app = Flask(__name__)
@@ -91,14 +92,31 @@ def delete_cupcake(cupcake_id):
 
     return jsonify(deleted=cupcake_id)
 
-@app.get
+@app.route('/', methods=['GET', 'POST'])
+def show_cupcakes():
+
+    return render_template('display_cupcakes.html')
 
 
 
 
-# GET /
-# This should return an HTML page (via render_template). 
-# This page should be entirely static (the route should just render the template,
-# without providing any information on cupcakes in the database). 
-# It should show simply have an empty list where cupcakes should appear and a 
-# form where new cupcakes can be added.
+
+
+
+# form = AddCupcakeForm()
+
+    # if form.validate_on_submit():
+    #     flavor = form.flavor.data
+    #     size = form.size.data
+    #     rating = form.rating.data
+    #     image = form.image.data
+    #     if image == '':
+    #         image = DEFAULT_IMG
+
+    #     cupcake = Cupcake(flavor=flavor, size=size, rating=rating, image=image)
+    #     db.session.add(cupcake)
+    #     db.session.commit()
+
+    #     flash(f"Yum, a {flavor} cupcake! Sounds delicious.")
+
+    #     return redirect('/')
